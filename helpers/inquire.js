@@ -78,7 +78,7 @@ const menuBorrar = async ( tareas =[]) =>{
 
     const choices= tareas.map((tarea, indice)=>{
         const idx=`${indice+1}.`.green;
-        let estado= (tarea.completadoEn)?'Completada'.green : 'Pendiente'.red;
+        let estado= (tarea.completadoEn)?`Completada:${tarea.completadoEn}`.green : 'Pendiente'.red;
         return {
             value:`${tarea.id}`,
             name:`${idx}${tarea.descripcion}::${estado}`
@@ -118,11 +118,38 @@ const confirmar = async (message)=> {
     return ok;
 
 }
+
+const menuMarcaCompletadas = async ( tareas =[]) =>{
+
+    const choices= tareas.map((tarea, indice)=>{
+        const idx=`${indice+1}.`.green;
+        return {
+            value:`${tarea.id}`,
+            name:`${idx}${tarea.descripcion}`,
+            checked: (tarea.completadoEn)? true : false
+        }
+    })
+    const questions=[{
+        type:'checkbox',
+        name:'ids',
+        message:'Marque las que haya completado',
+        choices
+    }]
+
+    let {ids} = await inquire.prompt(questions);
+    return ids;
+    // {
+    //     value: '1',
+    //     name:`${'01'.green}. Crear tarea.-`
+    // }
+
+}
 module.exports={
     inquireMenu,
     inquirePausa,
     leerInput,
     menuBorrar,
-    confirmar
+    confirmar,
+    menuMarcaCompletadas
 }
 

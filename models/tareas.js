@@ -41,7 +41,7 @@ class Tareas{
 
             //tarea.descripcion;//asi saco la tarea;
             let indice = `${ind+1}.`.green//asi le agrego color verde al indice
-            let completado=(tarea.completadoEn)? 'Completado'.green : 'Pendiente'.red;
+            let completado=(tarea.completadoEn)? `Completado:${tarea.completadoEn}`.green : 'Pendiente'.red;
             console.log(`${indice}${tarea.descripcion}::${completado}`)
         })
         console.log();
@@ -70,6 +70,23 @@ class Tareas{
             })
         }
     
+    }
+
+    marcarCompletadas(ids){
+      
+        ids.forEach(id=>{
+            if(!this._listado[id].completadoEn){
+                
+                this._listado[id].completadoEn = new Date().toLocaleTimeString() +' -- '+ new Date().toLocaleDateString();
+            }
+        })
+
+        this.listadoArray.forEach( tarea =>{
+
+            if(!ids.includes(tarea.id)){
+                this._listado[tarea.id].completadoEn=null;
+            }
+        })
     }
 
 };

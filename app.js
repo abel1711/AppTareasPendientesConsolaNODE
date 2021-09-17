@@ -5,14 +5,15 @@ const {
     inquirePausa,
     leerInput, 
     menuBorrar,
-    confirmar} = require('./helpers/inquire');
+    confirmar,
+    menuMarcaCompletadas} = require('./helpers/inquire');
 const Tareas = require('./models/tareas');
 
 console.clear();
 
 
 const main = async ()=>{
-    
+
     let opt='';
     const tareas = new Tareas();
     const tareasDB=leerDataBase();
@@ -38,6 +39,8 @@ const main = async ()=>{
                 tareas.listarPendientesCompletadas(false);
                 break;
             case '5':
+                const ids = await menuMarcaCompletadas(tareas.listadoArray);
+                tareas.marcarCompletadas(ids);
                 break;
             case '6':
                 let id= await menuBorrar(tareas.listadoArray);
